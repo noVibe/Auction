@@ -6,9 +6,6 @@ import pro.sky.auction.dto.Lot;
 import pro.sky.auction.enums.LotStatus;
 import pro.sky.auction.model.LotModel;
 
-import java.util.List;
-
-
 @Component
 public class LotConverter {
 

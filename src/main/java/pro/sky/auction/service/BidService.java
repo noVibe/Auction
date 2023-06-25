@@ -6,7 +6,6 @@ import pro.sky.auction.dto.BidDTO;
 import pro.sky.auction.enums.LotStatus;
 import pro.sky.auction.expetion_logic.exceptions.NothingFoundById;
 import pro.sky.auction.expetion_logic.exceptions.WrongLotStatus;
-import pro.sky.auction.handlers.BidConverter;
 import pro.sky.auction.model.BidModel;
 import pro.sky.auction.model.LotModel;
 import pro.sky.auction.repository.BidRepository;
@@ -18,17 +17,14 @@ public class BidService {
     final private BidRepository bidRepository;
     final private LotRepository lotRepository;
 
-    final private BidConverter bidConverter;
-
-    public BidService(BidRepository bidRepository, LotRepository lotRepository, BidConverter bidConverter) {
+    public BidService(BidRepository bidRepository, LotRepository lotRepository) {
         this.bidRepository = bidRepository;
         this.lotRepository = lotRepository;
-        this.bidConverter = bidConverter;
     }
 
     public BidDTO getFirstBidder(int lotId) {
-        return bidConverter.toBidDTO(bidRepository.findFirstByLotIdOrderByBidDateAsc(lotId)
-                .orElseThrow(() -> new NothingFoundById(lotId)));
+        return bidRepository.findFirstByLotIdOrderByBidDateAsc(lotId)
+                .orElseThrow(() -> new NothingFoundById(lotId));
     }
 
 
@@ -38,7 +34,7 @@ public class BidService {
 
     @Transactional
     public void addBid(int lotId, BidDTO dto) {
-        BidModel bidModel = new BidModel(lotId, dto.getBidderName());
+        BidModel bidModel = new BidModel(lotId, dto.bidderName());
         LotModel lot = lotRepository.findById(lotId).orElseThrow(() -> new NothingFoundById(lotId));
         if (!lot.getStatus().equals(LotStatus.STARTED)) {
             throw new WrongLotStatus();

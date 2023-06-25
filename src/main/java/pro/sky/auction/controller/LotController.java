@@ -38,7 +38,7 @@ public class LotController {
         this.bidService = bidService;
     }
 
-    @GetMapping("/export")
+    @GetMapping(value = "/export", produces = "application/csv")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Resource> getCSVFile() throws MalformedURLException {
         File file = lotService.getLotsInCSV();
