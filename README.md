@@ -1,5 +1,5 @@
 # Auction
-Smple auction app.
+Simple auction app.
 Allows to create lots and to make bids. 
 
 Lot can have one of three states: CREATED, STARTED, STOPPED.
